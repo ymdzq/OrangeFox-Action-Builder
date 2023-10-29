@@ -82,6 +82,21 @@ jobs:
         cd sync
         ./orangefox_sync.sh --branch ${{ github.event.inputs.MANIFEST_BRANCH }} --path ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
 
+    - name: Patching the Source Code
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/ymdzq/scripts of_patch
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/bootable/recovery
+        git fetch https://github.com/sekaiacg/twrp_recovery android-12.1 && git cherry-pick 443565c
+        git apply ${GITHUB_WORKSPACE}/of_patch/early-translation.patch
+        git apply ${GITHUB_WORKSPACE}/of_patch/fastbootd-optimize.patch
+        git apply ${GITHUB_WORKSPACE}/of_patch/Backup_Display_Name.patch
+        git apply ${GITHUB_WORKSPACE}/of_patch/DST.patch
+        git apply ${GITHUB_WORKSPACE}/of_patch/settings.patch
+        git apply ${GITHUB_WORKSPACE}/of_patch/AVB20.patch
+        git apply ${GITHUB_WORKSPACE}/of_patch/Update_Log_File.patch
+        git apply ${GITHUB_WORKSPACE}/of_patch/Set_FBE_Status.patch
+
     - name: Clone Device Tree
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
