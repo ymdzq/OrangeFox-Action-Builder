@@ -81,11 +81,12 @@ jobs:
         cd sync
         ./orangefox_sync.sh --branch ${{ inputs.MANIFEST_BRANCH }} --path ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
 
-    - name: Clone Snapuserd Dependencies
+    - name: Clone Android13+ Dependencies
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
-        git clone --depth=1 https://android.googlesource.com/platform/external/gflags -b android-12.1.0_r4 ./external/gflags
-        
+        sed -i 's/<project name="android_hardware_qcom_bootctrl" path="hardware\/qcom-caf\/bootctrl" remote="LineageOS" revision="lineage-19.1-caf" \/>/<project name="android_hardware_qcom_bootctrl" path="hardware\/qcom-caf\/bootctrl" remote="LineageOS" revision="lineage-20.0-caf" \/>/g' ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/.repo/manifests/twrp-default.xml
+        repo sync
+
     - name: Patching the Source Code
       if: inputs.MANIFEST_BRANCH == '12.1'
       run: |
