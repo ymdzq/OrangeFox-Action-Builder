@@ -118,6 +118,7 @@ jobs:
         git apply ${GITHUB_WORKSPACE}/of_patch/touch_permission.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/rmmod_goodix_core.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/rm-adf-leftovers.patch
+        git apply ${GITHUB_WORKSPACE}/of_patch/drm-fix-new-topology.patch
 
     - name: Clone Device Tree
       run: |
