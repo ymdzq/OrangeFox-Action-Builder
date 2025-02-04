@@ -94,7 +94,6 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
         sed -i 's/<project name="android_hardware_qcom_bootctrl" path="hardware\/qcom-caf\/bootctrl" remote="LineageOS" revision="lineage-19.1-caf" \/>/<project name="android_hardware_qcom_bootctrl" path="hardware\/qcom-caf\/bootctrl" remote="LineageOS" revision="lineage-21.0-caf" \/>/g' ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/.repo/manifests/twrp-default.xml
-        sed -i '/<remove-project name="platform\/external\/gflags"  \/>/d' ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/.repo/manifests/remove-minimal.xml
         sed -i '/<project path="bootable\/recovery" name="android_bootable_recovery" remote="TeamWin" revision="android-12.1"\/>/d' ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/.repo/manifests/twrp-default.xml
         mv ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery-ofrp
         repo sync
@@ -118,7 +117,6 @@ jobs:
         git apply ${GITHUB_WORKSPACE}/of_patch/touch_permission.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/rmmod_goodix_core.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/rm-adf-leftovers.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/drm-fix-new-topology.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/display-mode.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/SPR-support.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/mifs.patch
