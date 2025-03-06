@@ -24,7 +24,7 @@ on:
       DEVICE_TREE_BRANCH:
         description: 'OrangeFox Device Tree Branch'
         required: true
-        default: 'fox_12.1-a14'
+        default: 'fox_12.1-a15'
       DEVICE_PATH:
         description: 'Specify your Device Path'
         required: true
