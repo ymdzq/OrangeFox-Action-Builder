@@ -118,7 +118,6 @@ jobs:
         git clone https://github.com/ymdzq/scripts of_patch
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
         git fetch https://github.com/sekaiacg/twrp_recovery android-12.1 && git cherry-pick b65c915
-        git apply ${GITHUB_WORKSPACE}/of_patch/early-translation.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/Backup_Display_Name.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/DST.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/settings.patch
