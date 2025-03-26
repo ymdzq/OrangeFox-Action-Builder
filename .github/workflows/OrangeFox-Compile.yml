@@ -42,6 +42,15 @@ on:
         - boot
         - recovery
         - vendorboot
+      MAGISK_VERSION:
+        description: 'Specify your Magisk Version'
+        required: true
+        default: 'Magisk'
+        type: choice
+        options:
+        - Magisk
+        - MagiskAlpha
+        - MagiskDelta
 
 jobs:
   build:
@@ -103,6 +112,12 @@ jobs:
         git clone ${{ inputs.DEVICE_TREE }} -b ${{ inputs.DEVICE_TREE_BRANCH }} ./${{ inputs.DEVICE_PATH }}
         cd ${{ inputs.DEVICE_PATH }}
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+    - name: Update OrangeFox Built-in Magisk
+      run: |
+        git clone https://github.com/ymdzq/twrp_prebuilt ~/twrp_prebuilt
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/${{ inputs.DEVICE_PATH }}
+        if ! grep -q 'FOX_USE_SPECIFIC_MAGISK_ZIP' vendorsetup.sh; then (echo 'export FOX_USE_SPECIFIC_MAGISK_ZIP=~/twrp_prebuilt/Magisk/${{ inputs.MAGISK_VERSION }}.apk'>>vendorsetup.sh && echo "Added FOX_USE_SPECIFIC_MAGISK_ZIP in vendorsetup.sh"); else sed -i 's/.*export FOX_USE_SPECIFIC_MAGISK_ZIP.*/export FOX_USE_SPECIFIC_MAGISK_ZIP=\~\/twrp_prebuilt\/Magisk\/${{ inputs.MAGISK_VERSION }}.apk/' vendorsetup.sh; fi
 
     - name: Building OrangeFox
       run: |
