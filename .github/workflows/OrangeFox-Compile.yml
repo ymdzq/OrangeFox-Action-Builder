@@ -117,6 +117,7 @@ jobs:
         git clone https://github.com/ymdzq/scripts of_patch
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
         git fetch https://github.com/sekaiacg/twrp_recovery android-12.1 && git cherry-pick b65c915
+        git revert --no-edit a17deb4f
         git apply ${GITHUB_WORKSPACE}/of_patch/Backup_Display_Name.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/DST.patch
         git apply ${GITHUB_WORKSPACE}/of_patch/settings.patch
@@ -138,7 +139,7 @@ jobs:
 
     - name: Update OFR Built-in Magisk
       run: |
-        git clone https://github.com/sekaiacg/twrp_prebuilt ~/twrp_prebuilt
+        git clone https://github.com/ymdzq/twrp_prebuilt ~/twrp_prebuilt
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/${{ inputs.DEVICE_PATH }}
         if ! grep -q 'FOX_USE_SPECIFIC_MAGISK_ZIP' vendorsetup.sh; then (echo 'export FOX_USE_SPECIFIC_MAGISK_ZIP=~/twrp_prebuilt/Magisk/${{ inputs.MAGISK_VERSION }}.apk'>>vendorsetup.sh && echo "Added FOX_USE_SPECIFIC_MAGISK_ZIP in vendorsetup.sh"); else sed -i 's/.*export FOX_USE_SPECIFIC_MAGISK_ZIP.*/export FOX_USE_SPECIFIC_MAGISK_ZIP=\~\/twrp_prebuilt\/Magisk\/${{ inputs.MAGISK_VERSION }}.apk/' vendorsetup.sh; fi
 
