@@ -116,19 +116,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/ymdzq/scripts of_patch
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
-        git fetch https://github.com/sekaiacg/twrp_recovery android-12.1 && git cherry-pick b65c915
-        git revert --no-edit a17deb4f
-        git apply ${GITHUB_WORKSPACE}/of_patch/Backup_Display_Name.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/DST.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/settings.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/AVB20.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/Set_FBE_Status.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/touch_permission.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/rmmod_goodix_core.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/rm-adf-leftovers.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/display-mode.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/SPR-support.patch
-        git apply ${GITHUB_WORKSPACE}/of_patch/mifs.patch
+        git fetch https://github.com/ymdzq/OrangeFox_Recovery fox_12.1 && git cherry-pick defe2ba1..07220139
 
     - name: Clone Device Tree
       run: |
