@@ -105,7 +105,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/ymdzq/scripts of_patch
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
-        git fetch https://github.com/ymdzq/OrangeFox_Recovery fox_12.1 && git cherry-pick defe2ba1..07220139
+        git fetch https://github.com/ymdzq/OrangeFox_Recovery fox_12.1 && git cherry-pick b1f342cd..962866c8
 
     - name: Clone Device Tree
       run: |
