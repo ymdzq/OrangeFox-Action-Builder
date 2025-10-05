@@ -16,7 +16,6 @@ on:
         type: choice
         options:
         - 12.1
-        - 11.0
       DEVICE_TREE:
         description: 'OrangeFox Device Tree'
         required: true
@@ -80,7 +79,7 @@ jobs:
         sudo bash setup/android_build_env.sh
       
     - name: Set-up Manifest
-      if: inputs.MANIFEST_BRANCH == '11.0' || inputs.MANIFEST_BRANCH == '12.1'
+      if: inputs.MANIFEST_BRANCH == '12.1'
       run: |
         mkdir -p ${GITHUB_WORKSPACE}/OrangeFox
         cd ${GITHUB_WORKSPACE}/OrangeFox
