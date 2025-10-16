@@ -66,11 +66,6 @@ jobs:
     - name: Clean-up
       uses: rokibhasansagar/slimhub_actions@main
 
-    - name: Swap Space
-      uses: pierotofy/set-swap-space@master
-      with:
-        swap-size-gb: 24
-      
     - name: Build Environment
       run: |
         sudo apt install aria2 -y
