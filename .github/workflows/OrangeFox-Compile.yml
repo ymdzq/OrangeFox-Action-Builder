@@ -50,6 +50,11 @@ on:
         - Magisk
         - MagiskAlpha
         - MagiskDelta
+      USE_CCACHE:
+        description: Use ccache for compilation
+        type: boolean
+        required: true
+        default: true
 
 jobs:
   build:
@@ -72,6 +77,12 @@ jobs:
         git clone https://gitlab.com/OrangeFox/misc/scripts.git -b master
         cd scripts
         sudo bash setup/android_build_env.sh
+
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      if: inputs.USE_CCACHE
+      with:
+        max-size: "10G"
 
     - name: Setup zram
       run: |
@@ -132,6 +143,11 @@ jobs:
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
         set +e
         export FOX_BUILD_DEVICE=${{ inputs.DEVICE_NAME }}
+        if [[ ${{ inputs.USE_CCACHE }} == true ]]; then
+        export USE_CCACHE=1
+        export CCACHE_EXEC=/usr/bin/ccache
+        sed -i 's/return sandboxConfig\.working/return false/g' build/soong/ui/build/sandbox_linux.go
+        fi
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         set -e
