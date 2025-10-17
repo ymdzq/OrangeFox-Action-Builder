@@ -88,6 +88,7 @@ jobs:
       if: inputs.USE_CCACHE
       with:
         max-size: "10G"
+        key: ${{ runner.os }}-orangefox-${{ inputs.MANIFEST_BRANCH }}
       
     - name: Set-up Manifest
       if: inputs.MANIFEST_BRANCH == '12.1'
