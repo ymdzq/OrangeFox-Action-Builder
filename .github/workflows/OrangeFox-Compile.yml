@@ -141,10 +141,11 @@ jobs:
 
     - name: Update OrangeFox Built-in magiskboot
       run: |
-        git clone https://github.com/magojohnji/magiskboot-linux ~/magiskboot-linux
-        cp -f ~/magiskboot-linux/armeabi-v7a/magiskboot "${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/vendor/recovery/prebuilt/arm/magiskboot_updated"
-        cp -f ~/magiskboot-linux/arm64-v8a/magiskboot "${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/vendor/recovery/prebuilt/arm64/magiskboot_updated"
-        cp -f ~/magiskboot-linux/x86_64/magiskboot "${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/vendor/recovery/tools/magiskboot"
+        curl -L --retry 3 $(echo $(curl -s "https://api.github.com/repos/topjohnwu/Magisk/releases?per_page=1&include_prereleases=true") | jq -r '.[0].assets[] | select(.name | test("Magisk-.*\\.apk")) | .browser_download_url') -o Magisk.apk
+        unzip -q Magisk.apk "lib/*/libmagiskboot.so" -d ~/magiskboot
+        cp -f ~/magiskboot/lib/armeabi-v7a/libmagiskboot.so "${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/vendor/recovery/prebuilt/arm/magiskboot_updated"
+        cp -f ~/magiskboot/lib/arm64-v8a/libmagiskboot.so "${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/vendor/recovery/prebuilt/arm64/magiskboot_updated"
+        cp -f ~/magiskboot/lib/x86_64/libmagiskboot.so "${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/vendor/recovery/tools/magiskboot"
 
     - name: Building OrangeFox
       run: |
