@@ -82,7 +82,8 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1.2
       if: inputs.USE_CCACHE
       with:
-        max-size: "10G"
+        max-size: "5G"
+        create-symlink: true
 
     - name: Setup zram
       run: |
