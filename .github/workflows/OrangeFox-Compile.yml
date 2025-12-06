@@ -118,6 +118,12 @@ jobs:
         git clone https://github.com/ymdzq/twrp_prebuilt ~/twrp_prebuilt
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/${{ inputs.DEVICE_PATH }}
         if ! grep -q 'FOX_USE_SPECIFIC_MAGISK_ZIP' vendorsetup.sh; then (echo 'export FOX_USE_SPECIFIC_MAGISK_ZIP=~/twrp_prebuilt/Magisk/${{ inputs.MAGISK_VERSION }}.apk'>>vendorsetup.sh && echo "Added FOX_USE_SPECIFIC_MAGISK_ZIP in vendorsetup.sh"); else sed -i 's/.*export FOX_USE_SPECIFIC_MAGISK_ZIP.*/export FOX_USE_SPECIFIC_MAGISK_ZIP=\~\/twrp_prebuilt\/Magisk\/${{ inputs.MAGISK_VERSION }}.apk/' vendorsetup.sh; fi
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/vendor/recovery
+        curl -L --retry 3 "https://github.com/ymdzq/scripts/blob/main/Magisk_ver.patch?raw=true" -o Magisk_ver.patch
+        if [ "${{ inputs.MANIFEST_BRANCH }}" = "14.1" ]; then
+          sed -i 's/OrangeFox_A12.sh/OrangeFox_A14.sh/g' Magisk_ver.patch
+        fi
+        git am Magisk_ver.patch
 
     - name: Building OrangeFox
       run: |
