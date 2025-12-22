@@ -141,6 +141,19 @@ jobs:
         wget "https://github.com/ymdzq/OrangeFox_Recovery/commit/55743730c43681a777c4eacddd9d64a84dce3a54.patch" -O wlan2.patch
         git am wlan2.patch
 
+    - name: Add WLAN support For 14.1 Branch
+      if: inputs.MANIFEST_BRANCH == '14.1'
+      run: |
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
+        git clone https://github.com/adontoo/android_external_libmicrohttpd -b ofox-14.1 external/libmicrohttpd
+        rm -rf bionic
+        git clone https://github.com/adontoo/OrangeFox-android_platform_bionic bionic
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
+        wget "https://github.com/adontoo/device_xiaomi_sm8750_OFRP/raw/refs/heads/fox_14.1/patches/ofox_bootable_recovery.patch" -O wlan.patch
+        git apply wlan.patch
+        wget "https://github.com/ymdzq/OrangeFox_Recovery/commit/55743730c43681a777c4eacddd9d64a84dce3a54.patch" -O wlan2.patch
+        git apply wlan2.patch
+
     - name: Clone Device Tree
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
