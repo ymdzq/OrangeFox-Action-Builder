@@ -137,6 +137,16 @@ jobs:
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
         git fetch https://github.com/ymdzq/OrangeFox_Recovery fox_12.1 && git cherry-pick 69c5626b..55743730
 
+    - name: Add WLAN support For 14.1 Branch
+      if: inputs.MANIFEST_BRANCH == '14.1'
+      run: |
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
+        git clone https://github.com/adontoo/android_external_libmicrohttpd -b ofox-14.1 external/libmicrohttpd
+        rm -rf bionic
+        git clone https://github.com/adontoo/OrangeFox-android_platform_bionic bionic
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
+        git fetch https://github.com/ymdzq/OrangeFox_Recovery fox_14.1 && git cherry-pick 4aaf601 99e35fe
+
     - name: Clone Device Tree
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
