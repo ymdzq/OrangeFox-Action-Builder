@@ -78,6 +78,9 @@ jobs:
         cd scripts
         sudo bash setup/android_build_env.sh
 
+    - name: Maximize build space
+      uses: easimon/maximize-build-space@master
+
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
       if: inputs.USE_CCACHE
