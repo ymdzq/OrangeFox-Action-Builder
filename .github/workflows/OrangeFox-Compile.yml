@@ -65,9 +65,6 @@ jobs:
     permissions:
       contents: write
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-              
     - name: Clean-up
       uses: rokibhasansagar/slimhub_actions@main
 
@@ -80,6 +77,9 @@ jobs:
 
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
+
+    - name: Checkout
+      uses: actions/checkout@main
 
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
