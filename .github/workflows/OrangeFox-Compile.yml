@@ -218,17 +218,10 @@ jobs:
         fi
         echo "DEVICE_TREE_URL=${DEVICE_TREE_URL}" >> $GITHUB_ENV
 
-    - name: Upload to Release
-      uses: softprops/action-gh-release@master
+    - name: Upload to Artifact
+      uses: actions/upload-artifact@main
       with:
-        files: |
-          OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.img
+        name: OrangeFox Recovery for ${{ inputs.DEVICE_NAME }}(${{ env.BUILD_DATE }})
+        path: |
           OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
-        name: OrangeFox Recovery for ${{ inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
-        tag_name: ${{ github.run_id }}
-        body: |
-          ## OrangeFox Recovery Build - Unofficial
-          Build: fox_${{ inputs.MANIFEST_BRANCH }}
-          Device: [Device Tree/Branch](${{ env.DEVICE_TREE_URL }}/tree/${{ inputs.DEVICE_TREE_BRANCH }})
-          Commit: Most recent [commit](${{ env.DEVICE_TREE_URL }}/commit/${{ env.COMMIT_ID }}) during building.
-          
+
