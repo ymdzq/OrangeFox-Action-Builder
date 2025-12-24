@@ -117,6 +117,8 @@ jobs:
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bionic/
         wget "https://github.com/adontoo/OrangeFox-android_platform_bionic/commit/85b1a7100083006927376f30bb8a67885c6dd71f.patch" -O bionic.patch
         git am bionic.patch
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/external/libmicrohttpd
+        sed -i 's/^static enum MHD_Result send_response/static enum MHD_Result __attribute__((unused)) send_response/' server.c
 
     - name: Patching the Source Code For 12.1 Branch
       if: inputs.MANIFEST_BRANCH == '12.1'
