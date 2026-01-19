@@ -51,6 +51,11 @@ on:
         - Magisk
         - MagiskAlpha
         - MagiskDelta
+      ADD_WLAN_SUPPORT:
+        description: 'Add WLAN support (EXPERIMENTAL!!)'
+        type: boolean
+        required: true
+        default: false
       USE_CCACHE:
         description: Use ccache for compilation
         type: boolean
@@ -136,13 +141,15 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
         git remote add ymdzq https://github.com/ymdzq/OrangeFox_Recovery && git fetch ymdzq fox_12.1 && git merge --no-ff ymdzq/fox_12.1 -m "Apply custom patches"
+        if [ "${{ inputs.ADD_WLAN_SUPPORT }}" = "true" ]; then
         wget "https://github.com/ymdzq/OrangeFox_Recovery/commit/f8712872b9ec663b658a1e8eba4840877fe45ea6.patch" -O wlan.patch
         git am wlan.patch
         wget "https://github.com/ymdzq/OrangeFox_Recovery/commit/55743730c43681a777c4eacddd9d64a84dce3a54.patch" -O wlan2.patch
         git am wlan2.patch
+        fi
 
     - name: Add WLAN support For 14.1 Branch
-      if: inputs.MANIFEST_BRANCH == '14.1'
+      if: inputs.MANIFEST_BRANCH == '14.1' && inputs.ADD_WLAN_SUPPORT
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
         git clone https://github.com/adontoo/android_external_libmicrohttpd -b ofox-14.1 external/libmicrohttpd
