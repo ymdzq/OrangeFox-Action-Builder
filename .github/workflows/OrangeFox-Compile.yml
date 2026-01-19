@@ -109,16 +109,24 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
         sed -i 's/<project name="android_hardware_qcom_bootctrl" path="hardware\/qcom-caf\/bootctrl" remote="LineageOS" revision="lineage-19.1-caf" \/>/<project name="android_hardware_qcom_bootctrl" path="hardware\/qcom-caf\/bootctrl" remote="LineageOS" revision="lineage-21.0-caf" \/>/g' ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/.repo/manifests/twrp-default.xml
+        sed -i '/<!-- Include phh'\''s treble repo for lptools support -->/i \    <!-- Include libmicrohttpd for TWRP -->\n    <project name="adontoo/android_external_libmicrohttpd" path="external/libmicrohttpd" remote="github" revision="ofox-14.1" />\n' ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/.repo/manifests/twrp-default.xml
         sed -i '/<project path="bootable\/recovery" name="android_bootable_recovery" remote="TeamWin" revision="android-12.1"\/>/d' ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/.repo/manifests/twrp-default.xml
         mv ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery-ofrp
         repo sync
         mv ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery-ofrp ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bionic/
+        wget "https://github.com/adontoo/OrangeFox-android_platform_bionic/commit/85b1a7100083006927376f30bb8a67885c6dd71f.patch" -O bionic.patch
+        git am bionic.patch
 
     - name: Patching the Source Code For 12.1 Branch
       if: inputs.MANIFEST_BRANCH == '12.1'
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/bootable/recovery
         git remote add ymdzq https://github.com/ymdzq/OrangeFox_Recovery && git fetch ymdzq fox_12.1 && git merge --no-ff ymdzq/fox_12.1 -m "Apply custom patches"
+        wget "https://github.com/ymdzq/OrangeFox_Recovery/commit/f8712872b9ec663b658a1e8eba4840877fe45ea6.patch" -O wlan.patch
+        git am wlan.patch
+        wget "https://github.com/ymdzq/OrangeFox_Recovery/commit/55743730c43681a777c4eacddd9d64a84dce3a54.patch" -O wlan2.patch
+        git am wlan2.patch
 
     - name: Clone Device Tree
       run: |
